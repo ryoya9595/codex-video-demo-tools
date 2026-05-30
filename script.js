@@ -23,6 +23,13 @@ const state = {
   sns: "YouTube",
 };
 
+const pageViewMap = {
+  "estimate-invoice.html": "invoice",
+  "threads-scheduler.html": "threads",
+  "sns-research.html": "research",
+  "youtube-script-thumbnail.html": "youtube",
+};
+
 const snsPresets = {
   YouTube: {
     metrics: [
@@ -312,3 +319,7 @@ generateDocuments();
 renderThreads();
 renderResearch();
 renderYoutube();
+
+const currentPage = window.location.pathname.split("/").filter(Boolean).pop();
+const initialView = document.body.dataset.initialView || pageViewMap[currentPage] || "invoice";
+switchView(initialView);
