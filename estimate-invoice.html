@@ -4,206 +4,69 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>見積書・請求書 自動生成 | Codex Demo</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="tool.css" />
   </head>
-  <body data-initial-view="invoice">
-    <main class="app">
-      <aside class="sidebar" aria-label="ツール一覧">
-        <div class="brand">
-          <div class="brand-mark" aria-hidden="true">C</div>
-          <div>
-            <p>Codex Demo</p>
-            <h1>Business Tools</h1>
-          </div>
+  <body>
+    <main class="tool-shell">
+      <header class="tool-header">
+        <div>
+          <p class="kicker">Estimate / Invoice</p>
+          <h1>見積書・請求書 自動生成</h1>
         </div>
-        <nav class="tool-nav" aria-label="デモツール">
-          <button class="nav-item is-active" type="button" data-view="invoice">見積・請求</button>
-          <button class="nav-item" type="button" data-view="threads">Threads予約</button>
-          <button class="nav-item" type="button" data-view="research">競合SNS調査</button>
-          <button class="nav-item" type="button" data-view="youtube">台本・サムネ</button>
-        </nav>
-        <div class="sidebar-meta">
-          <span>撮影用デモ</span>
-          <strong>4 tools</strong>
-        </div>
-      </aside>
+        <div class="status-pill" id="statusPill">Ready</div>
+      </header>
 
-      <section class="workspace">
-        <header class="topbar">
-          <div>
-            <p id="viewKicker">Estimate / Invoice</p>
-            <h2 id="viewTitle">見積書・請求書 自動生成</h2>
+      <section class="two-column">
+        <form class="panel" id="invoiceForm">
+          <div class="field-grid">
+            <label>
+              <span>クライアント名</span>
+              <input name="client" value="株式会社ラッキーマイン" />
+            </label>
+            <label>
+              <span>案件名</span>
+              <input name="project" value="AI副業講座 LP改善支援" />
+            </label>
+            <label>
+              <span>金額</span>
+              <input name="amount" type="number" value="300000" />
+            </label>
+            <label>
+              <span>税率</span>
+              <select name="tax">
+                <option value="0.1">10%</option>
+                <option value="0.08">8%</option>
+                <option value="0">なし</option>
+              </select>
+            </label>
+            <label>
+              <span>発行日</span>
+              <input name="issueDate" type="date" />
+            </label>
+            <label>
+              <span>支払期限</span>
+              <input name="dueDate" type="date" />
+            </label>
           </div>
-          <div class="status-pill" id="statusPill">Ready</div>
-        </header>
-
-        <section class="view is-active" id="invoiceView" data-title="見積書・請求書 自動生成" data-kicker="Estimate / Invoice">
-          <div class="two-column">
-            <form class="panel form-panel" id="invoiceForm">
-              <div class="field-grid">
-                <label>
-                  <span>クライアント名</span>
-                  <input name="client" value="株式会社ラッキーマイン" />
-                </label>
-                <label>
-                  <span>案件名</span>
-                  <input name="project" value="AI副業講座 LP改善支援" />
-                </label>
-                <label>
-                  <span>金額</span>
-                  <input name="amount" type="number" value="300000" />
-                </label>
-                <label>
-                  <span>税率</span>
-                  <select name="tax">
-                    <option value="0.1">10%</option>
-                    <option value="0.08">8%</option>
-                    <option value="0">なし</option>
-                  </select>
-                </label>
-                <label>
-                  <span>発行日</span>
-                  <input name="issueDate" type="date" />
-                </label>
-                <label>
-                  <span>支払期限</span>
-                  <input name="dueDate" type="date" />
-                </label>
-              </div>
-              <label class="wide-field">
-                <span>作業内容</span>
-                <textarea name="items" rows="5">競合調査
+          <label>
+            <span>作業内容</span>
+            <textarea name="items" rows="5">競合調査
 LP構成改善
 AI導線設計
 改善レポート作成</textarea>
-              </label>
-              <div class="actions">
-                <button class="secondary" type="button" id="invoiceSampleButton">サンプル入力</button>
-                <button type="submit">書類を生成</button>
-              </div>
-            </form>
-            <div class="document-stack">
-              <article class="document" id="estimateDoc"></article>
-              <article class="document" id="invoiceDoc"></article>
-            </div>
+          </label>
+          <div class="actions">
+            <button class="secondary" type="button" id="invoiceSampleButton">サンプル入力</button>
+            <button type="submit">書類を生成</button>
           </div>
-        </section>
+        </form>
 
-        <section class="view" id="threadsView" data-title="Threads投稿ツール" data-kicker="Threads Scheduler">
-          <div class="two-column">
-            <form class="panel form-panel" id="threadsForm">
-              <div class="field-grid">
-                <label>
-                  <span>アカウント</span>
-                  <select name="account">
-                    <option>@ryoya_ai</option>
-                    <option>@luckymine_ai</option>
-                    <option>@ai_marketing_lab</option>
-                  </select>
-                </label>
-                <label>
-                  <span>予約日時</span>
-                  <input name="scheduledAt" type="datetime-local" />
-                </label>
-              </div>
-              <label class="wide-field">
-                <span>投稿本文</span>
-                <textarea name="text" rows="7">ChatGPTに課金してるのにCodexを使ってない人、かなりもったいない。
-
-Codexは会話するAIじゃなくて、作業を終わらせるAI。
-動画で実演します。</textarea>
-              </label>
-              <div class="actions">
-                <button class="secondary" type="button" id="threadsDraftButton">下書き保存</button>
-                <button type="submit">予約投稿</button>
-              </div>
-            </form>
-            <section class="panel list-panel">
-              <div class="panel-head">
-                <h3>投稿キュー</h3>
-                <span id="threadsCount">0件</span>
-              </div>
-              <div class="queue-list" id="threadsQueue"></div>
-            </section>
-          </div>
-        </section>
-
-        <section class="view" id="researchView" data-title="競合SNSリサーチツール" data-kicker="SNS Research">
-          <div class="panel">
-            <div class="research-controls">
-              <div class="segmented" id="snsTabs" role="tablist" aria-label="SNS">
-                <button class="is-active" type="button" data-sns="YouTube">YouTube</button>
-                <button type="button" data-sns="Instagram">Instagram</button>
-                <button type="button" data-sns="Threads">Threads</button>
-                <button type="button" data-sns="note">note</button>
-              </div>
-              <form id="researchForm" class="inline-research">
-                <input name="target" value="AI副業 チャンネル" />
-                <button type="submit">リサーチ開始</button>
-              </form>
-            </div>
-            <div class="research-output">
-              <section>
-                <h3 id="researchTitle">YouTube分析</h3>
-                <div class="metric-grid" id="metricGrid"></div>
-              </section>
-              <section>
-                <h3>伸びている切り口</h3>
-                <div class="insight-list" id="insightList"></div>
-              </section>
-              <section>
-                <h3>次に試す投稿案</h3>
-                <div class="idea-list" id="ideaList"></div>
-              </section>
-            </div>
-          </div>
-        </section>
-
-        <section class="view" id="youtubeView" data-title="YouTube台本・サムネ案 自動生成" data-kicker="Script / Thumbnail">
-          <div class="two-column">
-            <form class="panel form-panel" id="youtubeForm">
-              <label>
-                <span>テーマ</span>
-                <input name="theme" value="CodexでAI副業の作業を自動化する方法" />
-              </label>
-              <div class="field-grid">
-                <label>
-                  <span>視聴者</span>
-                  <select name="audience">
-                    <option>AI副業初心者</option>
-                    <option>中級者・講師</option>
-                    <option>フリーランス</option>
-                  </select>
-                </label>
-                <label>
-                  <span>トーン</span>
-                  <select name="tone">
-                    <option>初心者向けにやさしく</option>
-                    <option>危機感強め</option>
-                    <option>実演多め</option>
-                  </select>
-                </label>
-              </div>
-              <label class="wide-field">
-                <span>入れたい要素</span>
-                <textarea name="points" rows="5">月20ドルで追加課金なし
-画像生成
-コンピューターUSE
-ビジネスツール4連発
-セキュリティ設定特典</textarea>
-              </label>
-              <div class="actions">
-                <button type="submit">台本とサムネ案を生成</button>
-              </div>
-            </form>
-            <div class="youtube-output">
-              <section class="panel script-panel" id="scriptOutput"></section>
-              <section class="panel thumbnail-panel" id="thumbnailOutput"></section>
-            </div>
-          </div>
-        </section>
+        <div class="document-stack">
+          <article class="document" id="estimateDoc"></article>
+          <article class="document" id="invoiceDoc"></article>
+        </div>
       </section>
     </main>
-    <script src="script.js"></script>
+    <script src="estimate-invoice.js"></script>
   </body>
 </html>
